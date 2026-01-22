@@ -20,5 +20,3 @@ Workout Progress Tracking System is a web-based application that helps users rec
 - JSON / Local Storage – Data storage  
 
 ---
-
-## 📂 Project Structure
