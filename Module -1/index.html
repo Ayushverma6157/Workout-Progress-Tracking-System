@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WorkTrack — Workout Progress Tracker</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Nunito:wght@300;400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="logo">
+        <span class="logo-icon">⚡</span>
+        <span class="logo-text">Work<strong>Track</strong></span>
+      </div>
+      <nav class="main-nav">
+        <a href="#log" class="nav-link active">Log Workout</a>
+        <a href="#history" class="nav-link">History</a>
+        <a href="#stats" class="nav-link">My Stats</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="btn btn-outline" id="clearAllBtn">Clear All</button>
+      </div>
+
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-text">
+        <p class="hero-eyebrow">Your Personal Fitness Journal</p>
+        <h1 class="hero-title">Track Every<br><span class="highlight">Rep. Set. Gain.</span></h1>
+        <p class="hero-sub">Log workouts, monitor progress, and watch yourself get stronger every single day.</p>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-card">
+          <span class="stat-value" id="totalWorkouts">0</span>
+          <span class="stat-label">Workouts</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-card">
+          <span class="stat-value" id="totalExercises">0</span>
+          <span class="stat-label">Exercises</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-card">
+          <span class="stat-value" id="totalWeight">0<small>kg</small></span>
+          <span class="stat-label">Total Volume</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-card">
+          <span class="stat-value" id="streakDays">0</span>
+          <span class="stat-label">Day Streak</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main class="main-content">
+    <div class="container main-grid">
+
+      <section class="form-section" id="log">
+        <div class="section-header">
+          <h2 class="section-title"><span class="section-num">01</span> Log a Workout</h2>
+          <p class="section-desc">Record today's session details below.</p>
+        </div>
+
+        <form class="workout-form" id="workoutForm" novalidate>
+
+          <div class="form-group">
+            <label class="form-label" for="workoutDate">Date</label>
+            <input
+              type="date"
+              id="workoutDate"
+              name="workoutDate"
+              class="form-control"
+              required
+            />
+            <span class="form-hint">Defaults to today</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="exerciseName">Exercise Name</label>
+            <input
+              type="text"
+              id="exerciseName"
+              name="exerciseName"
+              class="form-control"
+              placeholder="e.g. Bench Press, Squats…"
+              required
+            />
+            <span class="form-error" id="nameError">Please enter an exercise name.</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="category">Category</label>
+            <select id="category" name="category" class="form-control form-select">
+              <option value="">— Select category —</option>
+              <option value="Chest">Chest</option>
+              <option value="Back">Back</option>
+              <option value="Shoulders">Shoulders</option>
+              <option value="Arms">Arms</option>
+              <option value="Legs">Legs</option>
+              <option value="Core">Core</option>
+              <option value="Cardio">Cardio</option>
+              <option value="Full Body">Full Body</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="sets">Sets</label>
+              <input
+                type="number"
+                id="sets"
+                name="sets"
+                class="form-control"
+                min="1" max="99"
+                placeholder="3"
+                required
+              />
+              <span class="form-error" id="setsError">Enter valid sets (1–99).</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="reps">Reps</label>
+              <input
+                type="number"
+                id="reps"
+                name="reps"
+                class="form-control"
+                min="1" max="999"
+                placeholder="10"
+                required
+              />
+              <span class="form-error" id="repsError">Enter valid reps (1–999).</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="weight">Weight (kg)</label>
+              <input
+                type="number"
+                id="weight"
+                name="weight"
+                class="form-control"
+                min="0" step="0.5"
+                placeholder="60"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="notes">Notes <span class="optional">(optional)</span></label>
+            <textarea
+              id="notes"
+              name="notes"
+              class="form-control form-textarea"
+              rows="3"
+              placeholder="How did it feel? Any PRs?"
+            ></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-full" id="addWorkoutBtn">
+            <span class="btn-icon">+</span> Add to Log
+          </button>
+
+          <div class="toast toast-success" id="successToast">
+             Workout logged successfully!
+          </div>
+
+        </form>
+      </section>
+
+      <div class="right-col">
+        <div class="filter-bar" id="history">
+          <div class="search-wrap">
+            <span class="search-icon">🔍</span>
+            <input
+              type="text"
+              id="searchInput"
+              class="search-input"
+              placeholder="Search exercise…"
+            />
+          </div>
+          <select id="filterCategory" class="filter-select">
+            <option value="">All Categories</option>
+            <option value="Chest">Chest</option>
+            <option value="Back">Back</option>
+            <option value="Shoulders">Shoulders</option>
+            <option value="Arms">Arms</option>
+            <option value="Legs">Legs</option>
+            <option value="Core">Core</option>
+            <option value="Cardio">Cardio</option>
+            <option value="Full Body">Full Body</option>
+            <option value="Other">Other</option>
+          </select>
+          <input type="date" id="filterDate" class="filter-date" title="Filter by date" />
+          <button class="btn btn-ghost btn-sm" id="resetFilterBtn">Reset</button>
+        </div>
+
+       
+        <div class="section-header">
+          <h2 class="section-title"><span class="section-num">02</span> Workout History</h2>
+          <p class="section-desc">Your logged sessions — newest first.</p>
+        </div>
+
+        
+        <div class="history-list" id="historyList">
+
+          <div class="empty-state" id="emptyState">
+            <div class="empty-icon">🏋️</div>
+            <p class="empty-title">No workouts logged yet</p>
+            <p class="empty-sub">Add your first session using the form on the left!</p>
+          </div>
+
+         
+        <section class="stats-section" id="stats">
+          <div class="section-header">
+            <h2 class="section-title"><span class="section-num">03</span> My Stats</h2>
+            <p class="section-desc">A snapshot of your overall performance.</p>
+          </div>
+
+          <div class="stats-grid">
+
+            <div class="stats-tile">
+              <div class="stats-tile-icon">📅</div>
+              <div class="stats-tile-body">
+                <div class="stats-tile-value" id="statLastDate">—</div>
+                <div class="stats-tile-label">Last Workout</div>
+              </div>
+            </div>
+
+            <div class="stats-tile">
+              <div class="stats-tile-icon">🏆</div>
+              <div class="stats-tile-body">
+                <div class="stats-tile-value" id="statBestExercise">—</div>
+                <div class="stats-tile-label">Most Logged Exercise</div>
+              </div>
+            </div>
+
+            <div class="stats-tile">
+              <div class="stats-tile-icon">💪</div>
+              <div class="stats-tile-body">
+                <div class="stats-tile-value" id="statMaxWeight">—</div>
+                <div class="stats-tile-label">Heaviest Lift</div>
+              </div>
+            </div>
+
+            <div class="stats-tile">
+              <div class="stats-tile-icon">🔄</div>
+              <div class="stats-tile-body">
+                <div class="stats-tile-value" id="statTotalSets">0</div>
+                <div class="stats-tile-label">Total Sets Done</div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+      </div>
+     
+
+    </div>
+  
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span class="footer-logo">⚡ WorkTrack</span>
+      <span class="footer-copy">Built with HTML · CSS · JavaScript · LocalStorage</span>
+    </div>
+  </footer>
+
+ 
+  <script src="script.js"></script>
+
+</body>
+</html>
